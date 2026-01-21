@@ -26,8 +26,7 @@
         }
 
         #cursor-outline {
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 25px; height: 25px;
             border: 1.5px solid var(--accent-red);
             border-radius: 50%;
@@ -45,8 +44,7 @@
         }
 
         .marquee-container {
-            display: flex;
-            width: 200%;
+            display: flex; width: 200%;
             animation: marquee 40s linear infinite;
         }
 
@@ -61,8 +59,8 @@
             transform: translateX(15px);
         }
 
-        /* UPDATED ALUMNI CARD: REDDENING EFFECT */
-        .alumni-scroll {
+        /* CARD SLIDERS */
+        .card-scroll {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
@@ -70,21 +68,47 @@
             padding: 20px 0;
         }
 
-        .alumni-card {
-            flex: 0 0 350px;
+        .info-card {
+            flex: 0 0 320px;
             scroll-snap-align: center;
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            height: fit-content;
         }
 
-        .alumni-card:hover {
-            background: rgba(255, 59, 59, 0.12); /* The "Reddening" cover effect */
+        .info-card.hidden { display: none; }
+
+        .info-card:hover {
+            background: rgba(255, 59, 59, 0.08);
+            border-color: rgba(255, 59, 59, 0.5);
+        }
+
+        /* EXPANSION LOGIC */
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .info-card.expanded .expandable-content {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .expand-icon { transition: transform 0.4s ease; }
+        .info-card.expanded .expand-icon { transform: rotate(45deg); color: var(--accent-red); }
+
+        .year-btn.active {
+            background: var(--accent-red);
+            color: white;
             border-color: var(--accent-red);
-            transform: translateY(-8px); /* Subtle lift instead of tilt */
         }
 
-        @media (min-width: 768px) {
-            .alumni-card { flex: 0 0 450px; }
-        }
+        @media (min-width: 768px) { .info-card { flex: 0 0 400px; } }
 
         .nav-scrolled {
             background: rgba(3, 7, 18, 0.9);
@@ -113,7 +137,7 @@
     <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-20 pt-20">
         <div class="relative z-10">
             <h1 class="text-7xl md:text-[130px] font-bold leading-[0.85] tracking-tighter mb-10 uppercase">
-                Real Work.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600">Goy motto hiiged.</span>
+                END AIMR.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600">Goy motto hiiged.</span>
             </h1>
             <p class="max-w-xl text-gray-400 text-lg md:text-xl mb-12">
                 Heden huuhed awaad fully funded mentorship hutulbur etc - real world mentorship etc.
@@ -151,63 +175,297 @@
             <div class="glass rounded-[40px] p-10 group">
                 <h3 class="text-2xl font-bold mb-4 uppercase">Curated Matching</h3>
                 <p class="text-gray-400 leading-relaxed mb-6">Tsuuhun suragch awah bolohoor holistic selection etc hiine gej meged.</p>
-                <p class="text-sm italic text-[var(--accent-red)]">"Zuwhun husel ermelzel, huneer ni l awna."</p>
+                <p class="text-sm italic text-[var(--accent-red)]">"Zuwhun dungeer bus husel ermelzel, hicheengui baidlaar n awna."</p>
             </div>
         </div>
 
         <div class="space-y-8">
             <div class="phase-card glass p-10 rounded-[32px] transition-all">
-                <span class="text-4xl font-light text-gray-800 block mb-4">00</span>
+                <span class="text-4xl font-light text-gray-800 block mb-4">Phase 00</span>
                 <h4 class="text-2xl font-bold mb-2 uppercase">Readiness Training</h4>
                 <p class="text-gray-400">Neg heseg onlinaar mentoring, training edr hiigeed.</p>
             </div>
             <div class="phase-card glass p-10 rounded-[32px] transition-all">
-                <span class="text-4xl font-light text-gray-800 block mb-4">01</span>
+                <span class="text-4xl font-light text-gray-800 block mb-4">Phase 01</span>
                 <h4 class="text-2xl font-bold mb-2 uppercase">Shadowing Phase</h4>
                 <p class="text-gray-400">Dajgu bolchhoor n dagaldaad yg yu hiideg edrin harad, assist edr hiiged.</p>
             </div>
             <div class="phase-card glass p-10 rounded-[32px] transition-all">
-                <span class="text-4xl font-light text-gray-800 block mb-4">02</span>
+                <span class="text-4xl font-light text-gray-800 block mb-4">Phase 02</span>
                 <h4 class="text-2xl font-bold mb-2 uppercase">The Project Grant</h4>
                 <p class="text-gray-400">Daraan sursan buh ym edreere neg proposal hiiged funding awaad zaawal neg project hiine ged.</p>
             </div>
         </div>
     </section>
 
-    <section class="py-32 overflow-hidden">
+    <section class="pt-32 pb-12 overflow-hidden border-t border-white/5">
         <div class="px-6 md:px-20 mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
             <div>
-                <h2 class="text-5xl font-bold mb-2 tracking-tighter uppercase">The Alumni <span class="text-[var(--accent-red)]">Network</span></h2>
-                <p class="text-gray-400">Neg goy inspirational ym biched, future leaders etc gedmu.</p>
+                <h2 class="text-5xl font-bold mb-6 tracking-tighter uppercase">The Alumni <span class="text-[var(--accent-red)]">Network</span></h2>
+                <div class="flex gap-3">
+                    <button onclick="filterAlumni('2025')" class="year-btn active border border-white/10 px-6 py-2 rounded-full text-sm font-bold transition-all">2025</button>
+                    <button onclick="filterAlumni('2026')" class="year-btn border border-white/10 px-6 py-2 rounded-full text-sm font-bold transition-all">2026</button>
+                </div>
             </div>
             <div class="flex gap-4">
-                <button id="prevBtn" class="btn-magnetic p-5 border border-white/10 rounded-full hover:bg-[var(--accent-red)] hover:text-white transition-all">
+                <button onclick="scrollSlider('alumniContainer', -400)" class="btn-magnetic p-5 border border-white/10 rounded-full hover:bg-[var(--accent-red)] transition-all">
                     <i data-lucide="arrow-left"></i>
                 </button>
-                <button id="nextBtn" class="btn-magnetic p-5 border border-white/10 rounded-full hover:bg-[var(--accent-red)] hover:text-white transition-all">
+                <button onclick="scrollSlider('alumniContainer', 400)" class="btn-magnetic p-5 border border-white/10 rounded-full hover:bg-[var(--accent-red)] transition-all">
                     <i data-lucide="arrow-right"></i>
                 </button>
             </div>
         </div>
 
-        <div id="alumniContainer" class="alumni-scroll px-6 md:px-20 gap-8">
-            <div class="alumni-card glass p-10 rounded-[40px]">
-                <div class="w-20 h-20 bg-gray-800/50 rounded-2xl mb-8 border border-white/5"></div>
+        <div id="alumniContainer" class="card-scroll px-6 md:px-20 gap-8">
+            <div class="info-card glass p-10 rounded-[40px] alumni-item" data-year="2025" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tuvshin" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
                 <h4 class="text-2xl font-bold mb-1 uppercase">Tuvshin.</h4>
-                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Electronics Engineering</p>
-                <p class="text-gray-400 leading-relaxed">Project: Solar-powered well maintenance system in Yesonbulag.</p>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Electronics</p>
+                <p class="text-gray-400">Project: Solar-powered well maintenance system.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Bat-Erdene M. <span class="text-xs font-normal text-gray-400 ml-2">• Senior Project Manager @ Oyu Tolgoi</span></p>
+                </div>
             </div>
-            <div class="alumni-card glass p-10 rounded-[40px]">
-                <div class="w-20 h-20 bg-gray-800/50 rounded-2xl mb-8 border border-white/5"></div>
-                <h4 class="text-2xl font-bold mb-1 uppercase">Tuvshin.</h4>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item" data-year="2025" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarnai" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Sarnai B.</h4>
                 <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Medicine</p>
-                <p class="text-gray-400 leading-relaxed">Project: First-aid training workshop series for 100 rural herders.</p>
+                <p class="text-gray-400">Project: First-aid herder training series.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Dr. Ariunaa G. <span class="text-xs font-normal text-gray-400 ml-2">• Public Health Expert</span></p>
+                </div>
             </div>
-            <div class="alumni-card glass p-10 rounded-[40px]">
-                <div class="w-20 h-20 bg-gray-800/50 rounded-2xl mb-8 border border-white/5"></div>
-                <h4 class="text-2xl font-bold mb-1 uppercase">Tuvshin.</h4>
-                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Software Dev</p>
-                <p class="text-gray-400 leading-relaxed">Project: Local marketplace app for Altai cashmere wool.</p>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item" data-year="2025" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Temuulen" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Temuulen T.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Software</p>
+                <p class="text-gray-400">Project: Altai Cashmere Marketplace app.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Zorigt T. <span class="text-xs font-normal text-gray-400 ml-2">• CTO @ TechMongolia</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item" data-year="2025" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Anu" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Anu J.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Urban Design</p>
+                <p class="text-gray-400">Project: Sustainable Green Space planning.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Buyan B. <span class="text-xs font-normal text-gray-400 ml-2">• Senior Architect</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item" data-year="2025" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bolor" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Bolor-Erdene.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '25 • Agri-Tech</p>
+                <p class="text-gray-400">Project: Smart greenhouses for winter soums.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Gan-Ochir L. <span class="text-xs font-normal text-gray-400 ml-2">• Agri-Sustainability Expert</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item hidden" data-year="2026" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Nomin" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Nomin E.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '26 • AI Research</p>
+                <p class="text-gray-400">Project: Predictive livestock disease mapping.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Zorigt T. <span class="text-xs font-normal text-gray-400 ml-2">• CTO @ TechMongolia</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item hidden" data-year="2026" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bat" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Bat-Orshikh.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '26 • Civil Eng</p>
+                <p class="text-gray-400">Project: Modular bridge design for remote areas.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Bat-Erdene M. <span class="text-xs font-normal text-gray-400 ml-2">• Senior Project Manager @ Oyu Tolgoi</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item hidden" data-year="2026" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Erden" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Erdenbayar.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '26 • Renewable</p>
+                <p class="text-gray-400">Project: Wind-turbine optimization for Altai peak.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Gan-Ochir L. <span class="text-xs font-normal text-gray-400 ml-2">• Agri-Sustainability Expert</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item hidden" data-year="2026" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Solongo" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Solongo G.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '26 • Nursing</p>
+                <p class="text-gray-400">Project: Mobile clinic outreach optimization.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Dr. Ariunaa G. <span class="text-xs font-normal text-gray-400 ml-2">• Public Health Expert</span></p>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px] alumni-item hidden" data-year="2026" onclick="toggleCard(this, 'alumni')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Khulan" class="w-20 h-20 bg-gray-800/50 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Khulan B.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Class of '26 • Architecture</p>
+                <p class="text-gray-400">Project: Altai Library revitalization plan.</p>
+                <div class="expandable-content">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Mentor</p>
+                    <p class="font-bold text-white">Buyan B. <span class="text-xs font-normal text-gray-400 ml-2">• Senior Architect</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-12 pb-32 overflow-hidden bg-white/[0.01]">
+        <div class="px-6 md:px-20 mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+            <div>
+                <h2 class="text-5xl font-bold mb-2 tracking-tighter uppercase">The <span class="text-[var(--accent-red)]">Mentors</span></h2>
+                <p class="text-gray-400">Industry experts bridging the gap.</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="scrollSlider('mentorsContainer', -400)" class="btn-magnetic p-5 border border-white/10 rounded-full hover:bg-[var(--accent-red)] transition-all"><i data-lucide="arrow-left"></i></button>
+                <button onclick="scrollSlider('mentorsContainer', 400)" class="btn-magnetic p-5 border border-white/10 rounded-full hover:bg-[var(--accent-red)] transition-all"><i data-lucide="arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="mentorsContainer" class="card-scroll px-6 md:px-20 gap-8">
+            <div class="info-card glass p-10 rounded-[40px]" onclick="toggleCard(this, 'mentors')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bat-Erdene" class="w-20 h-20 bg-[var(--accent-red)]/10 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Bat-Erdene M.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Engineering • Oyu Tolgoi</p>
+                <div class="expandable-content">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Mentees</p>
+                            <div class="flex gap-2 flex-wrap"><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Tuvshin ('25)</span><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Bat-Orshikh ('26)</span></div>
+                        </div>
+                        <p class="text-xs text-white">Edu: MSc Renewable Energy, MUST</p>
+                        <p class="text-xs text-white">Job: Senior Project Manager</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px]" onclick="toggleCard(this, 'mentors')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ariunaa" class="w-20 h-20 bg-[var(--accent-red)]/10 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Dr. Ariunaa G.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Public Health • Regional</p>
+                <div class="expandable-content">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Mentees</p>
+                            <div class="flex gap-2 flex-wrap"><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Sarnai ('25)</span><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Solongo ('26)</span></div>
+                        </div>
+                        <p class="text-xs text-white">Edu: PhD Global Health, SNU</p>
+                        <p class="text-xs text-white">Initiatives: Rural Health Outreach</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px]" onclick="toggleCard(this, 'mentors')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Zorigt" class="w-20 h-20 bg-[var(--accent-red)]/10 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Zorigt T.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Technology • CTO</p>
+                <div class="expandable-content">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Mentees</p>
+                            <div class="flex gap-2 flex-wrap"><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Temuulen ('25)</span><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Nomin ('26)</span></div>
+                        </div>
+                        <p class="text-xs text-white">Edu: BS CS, Stanford University</p>
+                        <p class="text-xs text-white">Job: CTO @ TechMongolia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px]" onclick="toggleCard(this, 'mentors')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Buyan" class="w-20 h-20 bg-[var(--accent-red)]/10 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Buyan B.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Architecture • Urban</p>
+                <div class="expandable-content">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Mentees</p>
+                            <div class="flex gap-2 flex-wrap"><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Anu ('25)</span><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Khulan ('26)</span></div>
+                        </div>
+                        <p class="text-xs text-white">Edu: MArch, Tokyo University</p>
+                        <p class="text-xs text-white">Job: Senior Architect</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card glass p-10 rounded-[40px]" onclick="toggleCard(this, 'mentors')">
+                <div class="flex justify-between items-start mb-8">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Gan-Ochir" class="w-20 h-20 bg-[var(--accent-red)]/10 rounded-2xl border border-white/5">
+                    <div class="expand-icon text-gray-500"><i data-lucide="plus-circle"></i></div>
+                </div>
+                <h4 class="text-2xl font-bold mb-1 uppercase">Gan-Ochir L.</h4>
+                <p class="text-[var(--accent-red)] text-sm mb-6 uppercase tracking-widest font-bold">Agri-Sustainability</p>
+                <div class="expandable-content">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Mentees</p>
+                            <div class="flex gap-2 flex-wrap"><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Bolor ('25)</span><span class="text-[10px] px-2 py-1 bg-white/5 rounded">Erden ('26)</span></div>
+                        </div>
+                        <p class="text-xs text-white">Edu: Environmental Science, MUST</p>
+                        <p class="text-xs text-white">Initiatives: Arid Zone Greenery</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -241,7 +499,7 @@
         };
         animateCursor();
 
-        // Magnetics & Hover
+        // Magnetics
         const magnetics = document.querySelectorAll('.btn-magnetic');
         magnetics.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
@@ -259,22 +517,38 @@
             });
         });
 
-        // Phase Observer
-        const phases = document.querySelectorAll('.phase-card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    phases.forEach(p => p.classList.remove('active'));
-                    entry.target.classList.add('active');
+        // Slider Scroll
+        function scrollSlider(id, distance) {
+            document.getElementById(id).scrollBy({ left: distance, behavior: 'smooth' });
+        }
+
+        // Card Toggle
+        function toggleCard(card, section) {
+            const containerSelector = section === 'alumni' ? '#alumniContainer' : '#mentorsContainer';
+            document.querySelectorAll(`${containerSelector} .info-card`).forEach(c => {
+                if (c !== card) c.classList.remove('expanded');
+            });
+            card.classList.toggle('expanded');
+        }
+
+        // Filter Alumni
+        function filterAlumni(year) {
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText === year) btn.classList.add('active');
+            });
+
+            document.querySelectorAll('.alumni-item').forEach(card => {
+                if (card.dataset.year === year) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('expanded');
                 }
             });
-        }, { threshold: 0.8 });
-        phases.forEach(p => observer.observe(p));
-
-        // Alumni Slider
-        const container = document.getElementById('alumniContainer');
-        document.getElementById('nextBtn').addEventListener('click', () => container.scrollBy({ left: 450, behavior: 'smooth' }));
-        document.getElementById('prevBtn').addEventListener('click', () => container.scrollBy({ left: -450, behavior: 'smooth' }));
+            // Reset scroll to start when switching years
+            document.getElementById('alumniContainer').scrollTo({ left: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
